@@ -1,0 +1,10 @@
+Package: tinyos-tools
+Version: @version@
+Section: devel
+Priority: optional
+Architecture: @architecture@ 
+Depends: tinyos-base, nesc, python, python-serial 
+Maintainer: Kevin Klues <klueska@cs.stanford.edu>
+Description:Tools for use with tinyos. Includes, for example: uisp, motelist, pybsl, mig, ncc and nesdoc. The source for these tools is found in the TinyOS CVS repository under tinyos-2.x/tools.
+
+

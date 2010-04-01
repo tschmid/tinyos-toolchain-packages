@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+perl -i.old -ne 'print unless /TINYOS ENVIRONMENT SETUP/ .. /TINYOS ENVIRONMENT SETUP END/' ~/.bashrc
+

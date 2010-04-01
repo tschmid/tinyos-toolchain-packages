@@ -1,0 +1,39 @@
+#! /usr/bin/env bash
+
+cat >> ~/.bashrc <<"EOF"
+####### TINYOS ENVIRONMENT SETUP BEGIN ######
+###### DO NOT EDIT THIS SECTION ######
+# SECTION ADDED BY tinyos package
+# All lines between the top and bottom
+# of this section will be deleted when
+# this package is removed.  
+# DO NOT EDIT these top and bottom 
+# lines
+#
+# Here we setup the environment
+# variables needed by the tinyos 
+# make system
+
+echo "Setting up for TinyOS 2.x"
+export TOSROOT=
+export TOSDIR=
+export MAKERULES=
+
+TOSROOT="/@prefix@/tinyos-2.x"
+TOSCONTRIB="/Users/klueska/sensornets/tos/tinyos-2.x-contrib"
+TOSDIR="$TOSROOT/tos"
+CLASSPATH=$CLASSPATH:$TOSROOT/support/sdk/java
+MAKERULES="$TOSROOT/support/make/Makerules"
+
+export TOSROOT
+export TOSDIR
+export CLASSPATH
+export MAKERULES
+
+# Extend path for java
+type java >/dev/null 2>/dev/null || PATH=`/usr/local/bin/locate-jre --java`:$PATH
+type javac >/dev/null 2>/dev/null || PATH=`/usr/local/bin/locate-jre --javac`:$PATH
+echo $PATH | grep -q /usr/local/bin ||  PATH=/usr/local/bin:$PATH
+
+####### TINYOS ENVIRONMENT SETUP END ######
+EOF
