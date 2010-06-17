@@ -1,0 +1,11 @@
+Package: arm-optional-tinyos
+Version: @version@
+Section: devel
+Priority: optional
+Architecture: @architecture@
+Depends: arm-tinyos
+Maintainer: Thomas Schmid <thschmid@umich.edu>
+Description: Dummy package to pull in all optional arm-related packages for tinyos
+
+
+

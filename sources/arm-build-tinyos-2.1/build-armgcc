@@ -1,0 +1,304 @@
+#!/bin/bash
+# Written by Uwe Hermann <uwe@hermann-uwe.de>, released as public domain.
+# Modified by Piotr Esden-Tempski <piotr@esden.net>, released as public domain.
+# Modified by Thomas Schmid <thschmid@umich.edu>, released as public domain.
+
+FINAL_INSTALL_DIR=`pwd`/packages/${INSTALL_DIR}
+TARGET=arm-none-eabi			# Target platform
+PREFIX=$(FINAL_INSTALL_DIR)   		# Install location of your final toolchain
+PARALLEL=-j`getconf _NPROCESSORS_ONLN`	# Parallel build options
+DARWIN_OPT_PATH=/opt/local		# Path in which MacPorts or Fink is installed
+
+BINUTILS=binutils-2.20.1
+GCC=gcc-4.4.4
+NEWLIB=newlib-1.18.0
+GDB=gdb-7.1
+GMP=gmp-4.3.2
+MPFR=mpfr-2.4.2
+
+MAIN_DIR=$(pwd)
+SOURCES=${MAIN_DIR}/sources
+
+export PATH="${PREFIX}/bin:${PATH}"
+
+case "$(uname)" in
+	Linux)
+	echo "Found Linux OS."
+	GCCFLAGS=
+	GDBFLAGS=
+	BINUTILFLAGS=
+	;;
+	Darwin)
+	echo "Found Darwin OS."
+	GCCFLAGS="--with-gmp=${DARWIN_OPT_PATH} \
+	          --with-mpfr=${DARWIN_OPT_PATH} \
+		  -with-libiconv-prefix=${DARWIN_OPT_PATH}"
+        GDBFLAGS="--disable-werror"
+	BINUTILFLAGS="--disable-werror"
+	;;
+	*)
+	echo "Found unknown OS. Aborting!"
+	exit 1
+	;;
+esac
+
+if [ ! -e ${SOURCES} ]; then
+    mkdir ${SOURCES}
+fi
+
+cd ${SOURCES}
+
+echo "Downloading binutils sources..."
+wget -c http://ftp.gnu.org/gnu/binutils/${BINUTILS}.tar.bz2
+
+echo "Downloading gcc sources..."
+wget -c http://ftp.gnu.org/gnu/gcc/${GCC}/${GCC}.tar.bz2
+
+echo "Downloading newlib sources..."
+wget -c ftp://sources.redhat.com/pub/newlib/${NEWLIB}.tar.gz
+
+echo "Downloading gdb sources..."
+wget -c http://ftp.gnu.org/gnu/gdb/${GDB}.tar.bz2
+
+echo "Downloading gmp sources..."
+wget -c http://ftp.gnu.org/gnu/gmp/${GMP}.tar.bz2
+
+echo "Downloading mpfr sources..."
+wget -c http://ftp.gnu.org/gnu/mpfr/${MPFR}.tar.bz2
+
+cd ${MAIN_DIR}
+
+if [ ! -e build ]; then
+    mkdir build
+fi
+
+if [ ! -e .${BINUTILS}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking ${BINUTILS}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/${BINUTILS}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring ${BINUTILS}"
+    echo "******************************************************************"
+    ../${BINUTILS}/configure --target=${TARGET} \
+                           --prefix=${PREFIX} \
+                           --enable-interwork \
+                           --enable-multilib \
+                           --with-gnu-as \
+                           --with-gnu-ld \
+                           --disable-nls \
+			   ${BINUTILFLAGS} || exit
+    echo "******************************************************************"
+    echo "* Building ${BINUTILS}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing ${BINUTILS}"
+    echo "******************************************************************"
+    make install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up ${BINUTILS}"
+    echo "******************************************************************"
+    touch .${BINUTILS}.build
+    rm -rf build/* ${BINUTILS}
+fi
+
+if [ ! -e .${GMP}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking ${GMP}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/${GMP}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring ${GMP}"
+    echo "******************************************************************"
+    ../${GMP}/configure \
+                           --prefix=${PREFIX} \
+			   || exit
+    echo "******************************************************************"
+    echo "* Building ${GMP}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing ${GMP}"
+    echo "******************************************************************"
+    make install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up ${GMP}"
+    echo "******************************************************************"
+    touch .${GMP}.build
+    rm -rf build/* ${GMP}
+fi
+
+if [ ! -e .${MPFR}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking ${MPFR}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/${MPFR}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring ${MPFR}"
+    echo "******************************************************************"
+    ../${MPFR}/configure \
+                           --prefix=${PREFIX} \
+                           --with-gmp=${PREFIX} \
+			   || exit
+    echo "******************************************************************"
+    echo "* Building ${MPFR}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing ${MPFR}"
+    echo "******************************************************************"
+    make install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up ${MPFR}"
+    echo "******************************************************************"
+    touch .${MPFR}.build
+    rm -rf build/* ${MPFR}
+fi
+
+if [ ! -e .${GCC}-boot.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking ${GCC}-boot"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/${GCC}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring ${GCC}-boot"
+    echo "******************************************************************"
+    ../${GCC}/configure --target=${TARGET} \
+                      --prefix=${PREFIX} \
+                      --enable-interwork \
+                      --enable-multilib \
+                      --enable-languages="c" \
+                      --with-newlib \
+                      --without-headers \
+                      --disable-shared \
+                      --with-gnu-as \
+                      --with-gnu-ld \
+                      --disable-nls \
+                      --with-mpfr=${PREFIX} \
+                      --with-gmp=${PREFIX} \
+		      ${GCCFLAGS} || exit
+    echo "******************************************************************"
+    echo "* Building ${GCC}-boot"
+    echo "******************************************************************"
+    make ${PARALLEL} all-gcc || exit
+    echo "******************************************************************"
+    echo "* Installing ${GCC}-boot"
+    echo "******************************************************************"
+    make install-gcc || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up ${GCC}-boot"
+    echo "******************************************************************"
+    touch .${GCC}-boot.build
+    rm -rf build/* ${GCC}
+fi
+
+if [ ! -e .${NEWLIB}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking ${NEWLIB}"
+    echo "******************************************************************"
+    tar xfvz ${SOURCES}/${NEWLIB}.tar.gz
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring ${NEWLIB}"
+    echo "******************************************************************"
+    ../${NEWLIB}/configure --target=${TARGET} \
+                         --prefix=${PREFIX} \
+                         --enable-interwork \
+                         --enable-multilib \
+                         --with-gnu-as \
+                         --with-gnu-ld \
+                         --disable-nls \
+                         --disable-newlib-supplied-syscalls || exit
+    echo "******************************************************************"
+    echo "* Building ${NEWLIB}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing ${NEWLIB}"
+    echo "******************************************************************"
+    make install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up ${NEWLIB}"
+    echo "******************************************************************"
+    touch .${NEWLIB}.build
+    rm -rf build/* ${NEWLIB}
+fi
+
+# Yes, you need to build gcc again!
+if [ ! -e .${GCC}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking ${GCC}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/${GCC}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring ${GCC}"
+    echo "******************************************************************"
+    ../${GCC}/configure --target=${TARGET} \
+                      --prefix=${PREFIX} \
+                      --enable-interwork \
+                      --enable-multilib \
+                      --enable-languages="c,c++" \
+                      --with-newlib \
+                      --disable-shared \
+                      --with-gnu-as \
+                      --with-gnu-ld \
+		      --disable-nls \
+                      --with-mpfr=${PREFIX} \
+                      --with-gmp=${PREFIX} \
+	 	     ${GCCFLAGS} || exit
+    echo "******************************************************************"
+    echo "* Building ${GCC}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing ${GCC}"
+    echo "******************************************************************"
+    make install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up ${GCC}"
+    echo "******************************************************************"
+    touch .${GCC}.build
+    rm -rf build/* ${GCC}
+fi
+
+if [ ! -e .${GDB}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking ${GDB}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/${GDB}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring ${GDB}"
+    echo "******************************************************************"
+    ../${GDB}/configure --target=${TARGET} \
+                      --prefix=${PREFIX} \
+                      --enable-interwork \
+                      --enable-multilib \
+		      ${GDBFLAGS} || exit
+    echo "******************************************************************"
+    echo "* Building ${GDB}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing ${GDB}"
+    echo "******************************************************************"
+    make install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up ${GDB}"
+    echo "******************************************************************"
+    touch .${GDB}.build
+    rm -rf build/* ${GDB}
+fi

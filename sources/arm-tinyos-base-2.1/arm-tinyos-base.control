@@ -1,0 +1,12 @@
+Package: arm-tinyos-base
+Version: @version@
+Section: devel
+Priority: optional
+Architecture: @architecture@
+Depends: tinyos-base
+Conflicts: 
+Maintainer: Thomas Schmid <thschmid@umich.edu>
+Description: Dummy package required by all arm-tinyos tools.  Removing this package will remove all arm-tinyos related packages.
+
+
+

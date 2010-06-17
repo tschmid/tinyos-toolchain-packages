@@ -1,0 +1,11 @@
+Package: arm-tinyos
+Version: @version@
+Section: devel
+Priority: optional
+Architecture: @architecture@
+Depends: arm-tinyos-base, arm-binutils-tinyos, arm-gcc-tinyos, arm-libc-tinyos
+Maintainer: Thomas Schmid <thschmid@umich.edu>
+Description: Dummy package to pull in all arm-related packages for tinyos
+
+
+

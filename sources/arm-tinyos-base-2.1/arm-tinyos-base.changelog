@@ -1,0 +1,7 @@
+arm-tinyos-base (2.1) unstable; urgency=low
+
+  * Initial release of arm-tinyos-base as an ubuntu package
+  * Dummy package required by all arm-tinyos tools.  Removing this package will remove all arm-tinyos related packages.
+
+ -- Thomas Schmid <thschmid@umich.edu> @date@
+

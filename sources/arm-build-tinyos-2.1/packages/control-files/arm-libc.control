@@ -1,0 +1,10 @@
+Package: arm-libc-tinyos
+Version: @version@
+Architecture: @architecture@
+Depends: arm-tinyos-base, arm-gcc-tinyos
+Recommends: arm-tinyos, arm-optional-tinyos
+Maintainer: Thomas Schmid <thschmid@umich.edu>
+Priority: optional
+Section: devel
+Description: ARMTOOLS -- Libc
+ We currently use the Newlib libc library.

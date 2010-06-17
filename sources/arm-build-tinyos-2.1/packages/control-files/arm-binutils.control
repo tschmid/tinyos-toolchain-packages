@@ -1,0 +1,32 @@
+Package: arm-binutils-tinyos
+Version: @version@
+Architecture: @architecture@
+Depends: arm-tinyos-base 
+Recommends: arm-tinyos, arm-optional-tinyos
+Maintainer: Thomas Schmid <thschmid@umich.edu>
+Priority: optional
+Section: devel
+Description: ARMTOOLS -- Binutils
+ Binutils is a collection of binary utilities, including:
+    * arm-non-eabi-ar: creating modifying and extracting from archives
+    * arm-non-eabi-as: a family of GNU assemblers
+    * arm-non-eabi-ld: the GNU linker
+    * arm-non-eabi-nm: for listing symbols from object files
+    * arm-non-eabi-objcopy: for copying and translating object files
+    * arm-non-eabi-objdump: for displaying information from object files
+    * arm-non-eabi-ranlib: for generating an index for the contents of an archive
+    * arm-non-eabi-size: for listing the section sizes of an object or archive file
+    * arm-non-eabi-strings: for listing printable strings from files
+    * arm-non-eabi-strip: for discarding symbols
+    * arm-non-eabi-addr2line: for converting addresses to file and line
+    * arm-non-eabi-readelf: for displaying information about ELF files
+ .
+ Install binutils if you need to perform any of these types of actions on
+ arm binary files.  Most programmers will want to install binutils.
+ .
+ Supported processors:
+    * See arm gcc website. There are too many to list.
+ .
+ Development of binutils is part of MPCGCC project. You can found it at:
+ http://mspgcc.sourceforge.net
+

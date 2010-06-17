@@ -1,0 +1,7 @@
+arm-optional-tinyos (2.1) unstable; urgency=low
+
+  * Initial release of arm-optional-tinyos as an ubuntu package
+  * Dummy package to pull in all optional arm-related packages for tinyos
+
+ -- Thomas Schmid <thschmid@umich.edu> @date@
+
