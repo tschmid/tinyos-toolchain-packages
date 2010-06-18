@@ -1,5 +1,5 @@
 ARCH_TYPE:=$(shell dpkg-architecture -qDEB_HOST_ARCH)
-INSTALL_DIR ?= usr
+INSTALL_DIR ?= usr/arm-tinyos
 PACKAGES_TOP_DIR ?= ../../../packages/
 PACKAGES_DIR = $(PACKAGES_TOP_DIR)/$(ARCH_TYPE)
 
@@ -28,7 +28,7 @@ LOOP_LIST= "$(ARM_BINUTILS_NAME) $(ARM_BINUTILS_VERSION)"		\
 	   "$(ARM_GDB_NAME) $(ARM_GDB_VERSION)"	
 
 
-all: 
+all: remove-deps  
 	for i in $(LOOP_LIST);								\
 	do										\
 		set -- $$i;								\
@@ -41,12 +41,25 @@ all:
 
 packages: all
 
+remove-deps:
+	rm -f $(ARM_BINUTILS)/$(INSTALL_DIR)/share/info/dir
+	rm -f $(ARM_GCC)/$(INSTALL_DIR)/share/info/dir
+	rm -f $(ARM_GCC)/$(INSTALL_DIR)/lib/libiberty.a
+	rm -f $(ARM_LIBC)/$(INSTALL_DIR)/share/info/dir
+	rm -f $(ARM_LIBC)/$(INSTALL_DIR)/share/info/standards.info
+	rm -f $(ARM_LIBC)/$(INSTALL_DIR)/share/info/configure.info
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/info/standards.info
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/info/bfd.info
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/info/configure.info
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/lib/libiberty.a
+
 remove-$(ARM_BINUTILS)-deps:
 	find $(INSTALL_DIR) -type f > $(ARM_BINUTILS).files
 	rm -rf $(ARM_BINUTILS)
 	mkdir -p $(ARM_BINUTILS)
 	cp -R $(INSTALL_DIR) $(ARM_BINUTILS)/
-	rm -rf  $(ARM_BINUTILS)/$(INSTALL_DIR)/info
+	rm -rf  $(ARM_BINUTILS)/$(INSTALL_DIR)/info/dir
+	rm -rf  $(ARM_BINUTILS)/$(INSTALL_DIR)/share/info/dir
 	rm -rf $(ARM_BINUTILS)/$(INSTALL_DIR)/lib/libiberty.a
 	rm -rf $(ARM_BINUTILS)/$(INSTALL_DIR)/share/locale
 	rm -rf $(ARM_BINUTILS)/$(INSTALL_DIR)/man/man7
@@ -60,6 +73,8 @@ remove-$(ARM_GCC)-deps:
 	cp -R $(INSTALL_DIR) $(ARM_GCC)/
 	cp -R $(ARM_BINUTILS)/* .
 	rm -rf $(ARM_GCC)/$(INSTALL_DIR)/man/man7
+	rm -rf $(ARM_GCC)/$(INSTALL_DIR)/info/dir
+	rm -rf $(ARM_GCC)/$(INSTALL_DIR)/share/info/dir
 
 remove-$(ARM_LIBC)-deps:
 	cat $(ARM_BINUTILS).files | xargs rm -rf
@@ -71,6 +86,7 @@ remove-$(ARM_LIBC)-deps:
 	cp -R $(INSTALL_DIR) $(ARM_LIBC)/
 	cp -R $(ARM_BINUTILS)/* .
 	cp -R $(ARM_GCC)/* .
+	rm -rf $(ARM_LIBC)/$(INSTALL_DIR)/share/info/standards.info
 
 clean:
 	find . -name DEBIAN -type d | xargs rm -rf 

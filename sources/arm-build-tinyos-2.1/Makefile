@@ -6,6 +6,8 @@ all:
 clean:
 	rm -rf sources build
 
-packages: all
+FORCE:
+
+packages: FORCE
 	cd packages;		\
 	make clean; make;
