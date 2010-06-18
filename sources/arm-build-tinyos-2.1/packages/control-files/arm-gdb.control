@@ -1,0 +1,11 @@
+Package: arm-gdb-tinyos
+Version: @version@
+Architecture: @architecture@
+Depends: arm-tinyos-base
+Recommends: arm-tinyos, arm-optional-tinyos
+Maintainer: Thomas Schmid <thschmid@umich.edu>
+Priority: optional
+Section: devel
+Description: ARMTOOLS -- GNU GDB
+ GDB is a C debugger, including:
+    * arm-non-eabi-gdb: GNU project GDB for ARM processor serie

@@ -1,11 +1,11 @@
-INSTALL_DIR ?= usr
+INSTALL_DIR ?= usr/arm-tinyos/
 
 all:
-	INSTALL_DIR=$(INSTALL_DIR) ./build-armgcc
+	INSTALL_DIR=$(INSTALL_DIR) sh -x build-armgcc
 
 clean:
 	rm -rf sources build
 
-packages:
+packages: all
 	cd packages;		\
 	make clean; make;
