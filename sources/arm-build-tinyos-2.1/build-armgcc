@@ -3,6 +3,8 @@
 # Modified by Piotr Esden-Tempski <piotr@esden.net>, released as public domain.
 # Modified by Thomas Schmid <thschmid@umich.edu>, released as public domain.
 
+umask 002
+
 FINAL_INSTALL_DIR=`pwd`/packages/
 TARGET=arm-none-eabi			# Target platform
 PREFIX=${INSTALL_DIR}   		# Install location of your final toolchain
