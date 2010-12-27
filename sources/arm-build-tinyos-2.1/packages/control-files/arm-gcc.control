@@ -1,7 +1,7 @@
 Package: arm-gcc-tinyos
 Version: @version@
 Architecture: @architecture@
-Depends: arm-tinyos-base, arm-binutils-tinyos
+Depends: arm-tinyos-base, arm-binutils-tinyos, arm-libc-tinyos
 Recommends: arm-tinyos, arm-optional-tinyos
 Maintainer: Thomas Schmid <thschmid@umich.edu>
 Priority: optional
@@ -16,3 +16,4 @@ Description: ARMTOOLS -- GNU CC
  .
  Supported processors:
    * See arm gcc website. There are too many to list here.
+ .

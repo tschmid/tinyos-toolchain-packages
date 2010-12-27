@@ -9,3 +9,4 @@ Section: devel
 Description: ARMTOOLS -- GNU GDB
  GDB is a C debugger, including:
     * arm-non-eabi-gdb: GNU project GDB for ARM processor serie
+ .

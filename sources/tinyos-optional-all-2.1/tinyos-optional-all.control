@@ -3,7 +3,7 @@ Version: @version@
 Section: devel
 Priority: optional
 Architecture: @architecture@
-Depends: tinyos-required-all, msp430-tinyos-optional, avr-tinyos-optional
+Depends: tinyos-required-all, msp430-tinyos-optional, avr-tinyos-optional, arm-tinyos-optional
 Maintainer: Kevin Klues <klueska@cs.stanford.edu>
 Description: Dummy package to pull in all optional packages for tinyos
 
