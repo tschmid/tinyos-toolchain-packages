@@ -1,5 +1,5 @@
 ARCH_TYPE:=$(shell dpkg-architecture -qDEB_HOST_ARCH)
-INSTALL_DIR ?= usr/arm-tinyos
+INSTALL_DIR ?= /usr/
 PACKAGES_TOP_DIR ?= ../../../packages/
 PACKAGES_DIR = $(PACKAGES_TOP_DIR)/$(ARCH_TYPE)
 
@@ -13,7 +13,7 @@ ARM_GCC_NAME=arm-gcc
 ARM_GCC_VERSION=4.5.2
 
 ARM_GDB_NAME=arm-gdb
-ARM_GDB_VERSION=7.1
+ARM_GDB_VERSION=7.2
 
 ARM_LIBC=$(ARM_LIBC_NAME)-$(ARM_LIBC_VERSION)
 ARM_BINUTILS=$(ARM_BINUTILS_NAME)-$(ARM_BINUTILS_VERSION)
@@ -43,6 +43,7 @@ packages: all
 
 remove-deps:
 	rm -f $(ARM_BINUTILS)/$(INSTALL_DIR)/share/info/dir
+	rm -f $(ARM_BINUTILS)/$(INSTALL_DIR)/lib/libiberty.a
 	rm -f $(ARM_GCC)/$(INSTALL_DIR)/share/info/dir
 	rm -f $(ARM_GCC)/$(INSTALL_DIR)/lib/libiberty.a
 	rm -f $(ARM_LIBC)/$(INSTALL_DIR)/share/info/dir
@@ -51,6 +52,13 @@ remove-deps:
 	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/info/standards.info
 	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/info/bfd.info
 	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/info/configure.info
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/gdb/syscalls/sparc-linux.xml
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/gdb/syscalls/sparc64-linux.xml
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/gdb/syscalls/gdb-syscalls.dtd
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/gdb/syscalls/ppc64-linux.xml
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/gdb/syscalls/ppc-linux.xml
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/gdb/syscalls/amd64-linux.xml
+	rm -f $(ARM_GDB)/$(INSTALL_DIR)/share/gdb/syscalls/i386-linux.xml
 	rm -f $(ARM_GDB)/$(INSTALL_DIR)/lib/libiberty.a
 
 remove-$(ARM_BINUTILS)-deps:
