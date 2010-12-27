@@ -25,3 +25,24 @@ Codename: hardy
 Architectures: i386 amd64
 Components: main
 Description: TinyOS hardy repository
+
+Origin: tinyos.stanford.edu
+Label: tinyos.stanford.edu
+Codename: intrepid
+Architectures: i386 amd64
+Components: main
+Description: TinyOS intrepid repository
+
+Origin: tinyos.stanford.edu
+Label: tinyos.stanford.edu
+Codename: jaunty
+Architectures: i386 amd64
+Components: main
+Description: TinyOS jaunty repository
+
+Origin: tinyos.stanford.edu
+Label: tinyos.stanford.edu
+Codename: karmic
+Architectures: i386 amd64
+Components: main
+Description: TinyOS karmic repository

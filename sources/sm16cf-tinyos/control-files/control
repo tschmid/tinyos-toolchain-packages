@@ -1,0 +1,12 @@
+Source: sm16cf-tinyos
+Section: Development
+Priority: optional
+Maintainer: Laurynas Riliskis <laurynas.riliskis@ltu.se>
+Build-Depends: debhelper (>=7.0.0), python-support (>= 0.6), cdbs (>= 0.4.49), python-all-dev
+Standards-Version: 3.8.0
+
+Homepage: http://sourceforge.net/projects/sm16cf/
+Package: sm16cf-tinyos
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+Description: Flasher for the Renesas M16C microcontroller

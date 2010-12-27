@@ -1,0 +1,10 @@
+Package: m32c-gcc+newlib-tinyos
+Version: @version@
+Architecture: @architecture@
+Depends: m32c-binutils-tinyos
+Recommends: m32c-tinyos, m32c-optional-tinyos
+Maintainer: Razvan Musaloiu-E. <razvan@musaloiu.com>
+Priority: optional
+Section: devel
+Description: gcc compiled for the M32C platform
+

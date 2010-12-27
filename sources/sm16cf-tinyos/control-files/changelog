@@ -1,0 +1,6 @@
+sm16cf-tinyos (1.0.0-rc5) unstable; urgency=low
+
+  * Build of binutils for mc16c32. But issiuses se: gnu binutils.
+
+ -- Laurynas Riliskis <laurynas.riliskis@ltu.se>  Tue, 01 Sep 2009 11:53:47 +0200
+

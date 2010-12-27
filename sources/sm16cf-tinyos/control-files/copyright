@@ -1,0 +1,21 @@
+This package was debianized by Laurynas Riliskis <laurynas.riliskis@ltu.se> on
+Tue, 01 Sep 2009 11:53:47 +0200.
+
+It was downloaded from http://sourceforge.net/projects/sm16cf/ 
+
+Upstream Author(s):
+
+    see: http://sourceforge.net/projects/sm16cf/
+
+Copyright:
+
+    see: http://sourceforge.net/projects/sm16cf/
+License:
+
+    see: http://sourceforge.net/projects/sm16cf/
+
+The Debian packaging is copyright 2009, Laurynas Riliskis <laurynas.riliskis@ltu.se> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

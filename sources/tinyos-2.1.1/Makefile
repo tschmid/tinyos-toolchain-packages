@@ -11,7 +11,7 @@ FULL_NAME = $(NAME)-$(VERSION)
 all: download extract do-copy package
 
 download:
-	cvs -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos login
+	#cvs -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos login
 	cvs -z3 -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos co -P -r $(CVS_TAG) tinyos-2.x	
 
 extract:
@@ -29,16 +29,16 @@ package: do-copy
                             | sed 's/@architecture@/$(ARCH_TYPE)/'                  	\
                             > $(FULL_NAME)/DEBIAN/control;
 	cat $(NAME).changelog | sed 's/@date@/'"`date -R`"'/g'                          \
-                              | sed 's/@version@/'$(VERSION)'/g'				\
+                              | sed 's/@version@/'$(VERSION)'/g'			\
                             >> $(FULL_NAME)/DEBIAN/changelog;
-	cat $(NAME).sh | sed 's/@prefix@/'$(INSTALL_DIR)'/g'                 \
-                       | sed 's/@version@/'$(VERSION)'/g'                 \
+	cat $(NAME).sh | sed 's/@prefix@/'$(INSTALL_DIR)'/g'				\
+                       | sed 's/@version@/'$(VERSION)'/g'				\
                             > $(FULL_NAME)/$(INSTALL_DIR)/$(FULL_NAME)/$(NAME).sh
 	dpkg-deb --build $(FULL_NAME) $(PACKAGES_DIR)/$(FULL_NAME).deb; 
 
 remove-history:
 	mv $(NAME).changelog.history $(NAME).changelog.history.saved
-	
+
 restore-history:
 	mv $(NAME).changelog.history.saved $(NAME).changelog.history
 

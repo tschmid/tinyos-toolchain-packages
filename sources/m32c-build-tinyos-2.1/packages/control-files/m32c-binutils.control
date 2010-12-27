@@ -1,0 +1,11 @@
+Package: m32c-binutils-tinyos
+Version: @version@
+Architecture: @architecture@
+Recommends: m32c-tinyos, m32c-optional-tinyos
+Maintainer: Razvan Musaloiu-E. <razvan@musaloiu.com>
+Priority: optional
+Section: devel
+Description: GNU binutils for the M32C platform
+ The GNU Binutils are a collection of binary tools. The main tools are
+ ld and as.
+

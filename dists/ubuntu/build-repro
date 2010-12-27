@@ -1,4 +1,4 @@
-DISTS="gutsy feisty hardy edgy"
+DISTS="karmic jaunty intrepid hardy gutsy feisty edgy"
 
 rm -rf db dists pool
 for i in $DISTS;							\

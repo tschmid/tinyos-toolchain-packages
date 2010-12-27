@@ -11,10 +11,15 @@ export MAKERULES=
 TOSROOT="/@prefix@/tinyos-@version@"
 TOSDIR="$TOSROOT/tos"
 CLASSPATH=$CLASSPATH:$TOSROOT/support/sdk/java
+PYTHONPATH=.:$TOSROOT/support/sdk/python:$PYTHONPATH
 MAKERULES="$TOSROOT/support/make/Makerules"
 
 export TOSROOT
 export TOSDIR
 export CLASSPATH
+<<<<<<< HEAD
+=======
+export PYTHONPATH
+>>>>>>> hinrg/master
 export MAKERULES
 
