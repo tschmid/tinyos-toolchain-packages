@@ -1,4 +1,4 @@
 Prerequisites
 -------------
-apt-get install texinfo m4 libncurses-dev dpkg-dev
+apt-get install git texinfo m4 libncurses-dev dpkg-dev
 
