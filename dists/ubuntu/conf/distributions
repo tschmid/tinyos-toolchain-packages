@@ -46,3 +46,10 @@ Codename: karmic
 Architectures: i386 amd64
 Components: main
 Description: TinyOS karmic repository
+
+Origin: tinyos.stanford.edu
+Label: tinyos.stanford.edu
+Codename: maverick
+Architectures: i386 amd64
+Components: main
+Description: TinyOS maverick repository

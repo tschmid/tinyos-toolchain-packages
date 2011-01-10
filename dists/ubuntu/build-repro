@@ -1,9 +1,9 @@
-DISTS="karmic jaunty intrepid hardy gutsy feisty edgy"
+DISTS="maverick karmic jaunty intrepid hardy gutsy feisty edgy"
 
 rm -rf db dists pool
 for i in $DISTS;							\
 do									\
-  find ../../packages -type f -exec reprepro includedeb $i '{}' \;;	\
+  find ../../packages -type f -name "*.deb" -exec reprepro --ignore=extension includedeb $i '{}' \;;	\
 done
 ./generate-listing
 

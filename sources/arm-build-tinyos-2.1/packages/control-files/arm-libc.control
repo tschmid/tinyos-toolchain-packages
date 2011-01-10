@@ -1,7 +1,7 @@
 Package: arm-libc-tinyos
 Version: @version@
 Architecture: @architecture@
-Depends: arm-tinyos-base, arm-gcc-tinyos
+Depends: arm-tinyos-base
 Recommends: arm-tinyos, arm-optional-tinyos
 Maintainer: Thomas Schmid <thschmid@umich.edu>
 Priority: optional
