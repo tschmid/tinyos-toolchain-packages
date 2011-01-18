@@ -1,0 +1,12 @@
+Package: tinyos-2.x-cortex
+Version: @version@
+Section: devel
+Priority: optional
+Architecture: @architecture@
+Depends: tinyos-required-all|tinyos-required-msp430|tinyos-required-avr|tinyos-required-arm
+Provides: tinyos
+Maintainer: Thomas Schmid <thomas.schmid@utah.edu>
+Description: The TinyOS operating system.
+
+
+

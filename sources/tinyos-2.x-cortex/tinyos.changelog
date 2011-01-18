@@ -1,0 +1,6 @@
+tinyos (cortex) unstable; urgency=low
+
+  * Cortex devel release of tinyos as an ubuntu package
+
+ -- Thomas Schmid <thomas.schmid@utah.edu> @date@
+
