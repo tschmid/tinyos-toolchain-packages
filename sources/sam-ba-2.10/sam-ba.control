@@ -1,0 +1,11 @@
+Package: sam-ba-2.10
+Version: @version@
+Section: devel
+Priority: optional
+Architecture: @architecture@
+Depends: tk8.4, tclx8.4, tcl8.4
+Provides: sam-ba
+Maintainer: Thomas Schmid <thomas.schmid@utah.edu>
+Description: This version of SAM-BA is designed to communicate with ATMEL AT91 devices only via
+  a USB CDC Serial communication channel on Linux.
+

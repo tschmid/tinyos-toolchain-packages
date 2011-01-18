@@ -1,9 +1,9 @@
-DISTS="gutsy feisty hardy edgy"
+. dists.sh
 
 rm -rf db dists pool
 for i in $DISTS;							\
 do									\
-  find ../../packages -type f -exec reprepro includedeb $i '{}' \;;	\
+  find ../../packages -type f -exec reprepro --ignore=extension includedeb $i '{}' \;;	\
   gpg -abs -o dists/$i/Release.gpg dists/$i/Release;			\
 done
 ./generate-listing

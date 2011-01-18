@@ -1,0 +1,6 @@
+sam-ba (2.10); urgency=low
+
+  * Atmel In-System Programmer for AT91
+
+ -- Thomas Schmid <thomas.schmid@utah.edu> @date@
+
