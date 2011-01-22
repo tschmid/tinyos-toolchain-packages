@@ -1,0 +1,10 @@
+Package: openocd-tinyos
+Version: @version@
+Architecture: @architecture@
+Depends: arm-tinyos-base
+Recommends: arm-tinyos, arm-optional-tinyos
+Maintainer: Thomas Schmid <thomas.schmid@utah.edu>
+Priority: optional
+Section: devel
+Description: OpenOCD 0.5 GIT repository
+  This is a very experimental OpenOCD tool. Will probably be replaced by a future stable 0.5 release.

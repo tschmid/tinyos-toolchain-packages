@@ -13,6 +13,7 @@ TOSDIR="$TOSROOT/tos"
 CLASSPATH=$CLASSPATH:$TOSROOT/support/sdk/java
 PYTHONPATH=.:$TOSROOT/support/sdk/python:$PYTHONPATH
 MAKERULES="$TOSROOT/support/make/Makerules"
+echo $PATH | grep -q /usr/arm-tinyos/sam-ba_cdc_linux || PATH=/usr/arm-tinyos/sam-ba_cdc_linux:$PATH
 echo $PATH | grep -q /usr/arm-tinyos/bin ||  PATH=/usr/arm-tinyos/bin:$PATH
 
 

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#if [ ! -e /etc/modprobe.d/atmel.conf ]; then
+#    echo "options usbserial vendor=0x03eb product=0x6124" > /etc/modprobe.d/atmel.conf
+#fi
+#if [ -e /etc/modules ]; then
+#    if ! grep -q usbserial /etc/modules; then
+#        echo "usbserial" >> /etc/modules
+#    fi
+#fi
+
+if [ ! -e /etc/udev/rules.d/80-sam-ba.rules ]; then
+    echo "SUBSYSTEMS==\"usb\", KERNEL==\"ttyACM0\", SYMLINK+=\"ttyUSB10\""
+    echo "SUBSYSTEMS==\"usb\", KERNEL==\"ttyACM1\", SYMLINK+=\"ttyUSB11\""
+fi
+

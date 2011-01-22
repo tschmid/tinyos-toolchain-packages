@@ -3,7 +3,7 @@ Version: @version@
 Section: devel
 Priority: optional
 Architecture: @architecture@
-Depends: arm-tinyos, sam-ba, openocd
+Depends: arm-tinyos, sam-ba, openocd, arm-gdb-tinyos
 Maintainer: Thomas Schmid <thomas.schmid@utah.edu>
 Description: Dummy package to pull in all optional arm-related packages for tinyos
 

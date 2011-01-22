@@ -1,5 +1,5 @@
 ARCH_TYPE:=$(shell dpkg-architecture -qDEB_HOST_ARCH)
-INSTALL_DIR ?= /usr/
+INSTALL_DIR ?= /usr/arm-tinyos
 PACKAGES_TOP_DIR ?= ../../../packages/
 PACKAGES_DIR = $(PACKAGES_TOP_DIR)/$(ARCH_TYPE)
 
@@ -25,7 +25,8 @@ NAMES = $(ARM_LIBC) $(ARM_BINUTILS) $(ARM_GCC) $(ARM_GDB)
 LOOP_LIST= "$(ARM_BINUTILS_NAME) $(ARM_BINUTILS_VERSION)"		\
 	   "$(ARM_GCC_NAME) $(ARM_GCC_VERSION)"				\
 	   "$(ARM_LIBC_NAME) $(ARM_LIBC_VERSION)"			\
-	   "$(ARM_GDB_NAME) $(ARM_GDB_VERSION)"	
+	   "$(ARM_GDB_NAME) $(ARM_GDB_VERSION)"	                        \
+           "openocd 0.5-git"
 
 
 all: remove-deps  
@@ -36,7 +37,7 @@ all: remove-deps
 		cat control-files/$$1.control | sed 's/@version@/'$$2-`date +%Y%m%d`'/'	\
 					      | sed 's/@architecture@/$(ARCH_TYPE)/'	\
 					      > $$1-$$2/DEBIAN/control;			\
-		dpkg-deb --build $$1-$$2 $(PACKAGES_DIR)/$$1-tinyos-$$2.deb;		\
+		fakeroot dpkg-deb --build $$1-$$2 $(PACKAGES_DIR)/$$1-tinyos-$$2.deb;		\
 	done
 
 packages: all

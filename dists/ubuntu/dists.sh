@@ -1,2 +1,2 @@
-#DISTS="maverick karmic jaunty intrepid hardy gutsy feisty edgy"
-DISTS="maverick"
+#DISTS="natty maverick lucid karmic jaunty intrepid hardy gutsy feisty edgy"
+DISTS="natty maverick lucid karmic"

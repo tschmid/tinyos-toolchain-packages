@@ -31,7 +31,9 @@ package: do-copy
 	cat $(NAME).changelog | sed 's/@date@/'"`date -R`"'/g'                          \
                               | sed 's/@version@/'$(VERSION)'/g'			\
                             >> $(FULL_NAME)/DEBIAN/changelog;
-	dpkg-deb --build $(FULL_NAME) $(PACKAGES_DIR)/$(FULL_NAME).deb; 
+	cat postinst >> $(FULL_NAME)/DEBIAN/postinst;
+	chmod 0755 $(FULL_NAME)/DEBIAN/postinst;
+	fakeroot dpkg-deb --build $(FULL_NAME) $(PACKAGES_DIR)/$(FULL_NAME).deb; 
 
 remove-history:
 	mv $(NAME).changelog.history $(NAME).changelog.history.saved

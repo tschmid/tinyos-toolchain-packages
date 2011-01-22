@@ -49,7 +49,21 @@ Description: TinyOS karmic repository
 
 Origin: tinyos.stanford.edu
 Label: tinyos.stanford.edu
+Codename: lucid
+Architectures: i386 amd64
+Components: main
+Description: TinyOS lucid repository
+
+Origin: tinyos.stanford.edu
+Label: tinyos.stanford.edu
 Codename: maverick
 Architectures: i386 amd64
 Components: main
 Description: TinyOS maverick repository
+
+Origin: tinyos.stanford.edu
+Label: tinyos.stanford.edu
+Codename: natty
+Architectures: i386 amd64
+Components: main
+Description: TinyOS natty repository
