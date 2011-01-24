@@ -1,4 +1,4 @@
-Package: sam-ba-2.10
+Package: sam-ba
 Version: @version@
 Section: devel
 Priority: optional

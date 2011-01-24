@@ -10,7 +10,7 @@
 #fi
 
 if [ ! -e /etc/udev/rules.d/80-sam-ba.rules ]; then
-    echo "SUBSYSTEMS==\"usb\", KERNEL==\"ttyACM0\", SYMLINK+=\"ttyUSB10\""
-    echo "SUBSYSTEMS==\"usb\", KERNEL==\"ttyACM1\", SYMLINK+=\"ttyUSB11\""
+    echo "SUBSYSTEMS==\"usb\", KERNEL==\"ttyACM0\", SYMLINK+=\"ttyUSB10\"" > /etc/udev/rules.d/80-sam-ba.rules
+    echo "SUBSYSTEMS==\"usb\", KERNEL==\"ttyACM1\", SYMLINK+=\"ttyUSB11\"" >> /etc/udev/rules.d/80-sam-ba.rules
 fi
 

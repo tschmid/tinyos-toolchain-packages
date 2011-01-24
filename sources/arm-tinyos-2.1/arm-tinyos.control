@@ -3,8 +3,8 @@ Version: @version@
 Section: devel
 Priority: optional
 Architecture: @architecture@
-Depends: arm-tinyos-base, arm-binutils-tinyos, arm-gcc-tinyos, arm-libc-tinyos
-Maintainer: Thomas Schmid <thschmid@umich.edu>
+Depends: arm-tinyos-base, arm-tinyos-toolchain
+Maintainer: Thomas Schmid <thomas.schmid@utah.edu>
 Description: Dummy package to pull in all arm-related packages for tinyos
 
 

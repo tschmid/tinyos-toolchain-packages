@@ -4,6 +4,6 @@ Section: devel
 Priority: optional
 Architecture: @architecture@
 Depends: tinyos-base
-Maintainer: Thomas Schmid <thschmid@eecs.umich.edu>
+Maintainer: Thomas Schmid <thomas.schmid@utah.edu>
 Description: Dummy package required by all arm-tinyos tools.  Removing this
   package will remove all arm-tinyos related packages.

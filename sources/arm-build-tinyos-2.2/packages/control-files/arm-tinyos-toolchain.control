@@ -1,0 +1,12 @@
+Package: arm-tinyos-toolchain
+Version: @version@
+Architecture: @architecture@
+Depends: arm-tinyos-base, libmpc2, libmpfr4
+Recommends: arm-tinyos, arm-optional-tinyos
+Maintainer: Thomas Schmid <thomas.schmid@utah.edu>
+Priority: optional
+Section: devel
+Description: ARMTOOLS -- GNU C, NewLib, Gdb
+ This package installs the full toolchain for TinyOS ARM development.
+ It is based on the CodeSourcery G++ Lite code. 
+ .
