@@ -1,0 +1,50 @@
+#!/bin/bash
+
+INSTALL_DIR=/usr/arm-tinyos
+FINAL_INSTALL_DIR=`pwd`/packages/
+TARGET=arm-none-eabi			# Target platform
+PREFIX=${INSTALL_DIR}   		# Install location of your final toolchain
+PARALLEL=-j`getconf _NPROCESSORS_ONLN`	# Parallel build options
+
+TOSOPENOCD=openocd-0.5-git
+
+MAIN_DIR=$(pwd)
+SOURCES=${MAIN_DIR}/sources
+
+if [ ! -e ${SOURCES} ]; then
+    mkdir ${SOURCES}
+fi
+
+cd ${SOURCES}
+
+echo "Downloading openocd repository..."
+git clone git://openocd.git.sourceforge.net/gitroot/openocd/openocd openocd-0.5-git
+tar cvfz openocd-0.5-git.tar.gz openocd-0.5-git
+wget -c http://www.ftdichip.com/Drivers/D2XX/Linux/libftd2xx0.4.16.tar.gz
+
+cd ${MAIN_DIR}
+
+if [ ! -e build ]; then
+    mkdir build
+fi
+
+if [ ! -e .openocd.build ]; then
+    tar xvfz ${SOURCES}/openocd-0.5-git.tar.gz
+    tar xvfz ${SOURCES}/libftd2xx0.4.16.tar.gz
+
+    pwd
+    cd openocd-0.5-git/
+    ./bootstrap || exit
+    cd -
+    cd build
+    ../openocd-0.5-git/configure --prefix=${FINAL_INSTALL_DIR}/${TOSOPENOCD}/${PREFIX} \
+                          --enable-ft2232_ftd2xx                         \
+                          --with-ftd2xx-linux-tardir=../libftd2xx0.4.16/ || exit
+    make || exit
+    make install || exit
+
+    touch .openocd.build
+    rm -rf build/* 
+    rm -rf openocd-0.5-git
+    rm -rf libftd2xx0.4.16
+fi

@@ -12,13 +12,13 @@ LOCAL_SOURCE = $(LOCAL_BASE).src.tar.bz2
 SOURCE_URL = http://www.codesourcery.com/sgpp/lite/arm/portal/package7812/public/arm-none-eabi/$(LOCAL_SOURCE)
 MD5_CHECKSUM = 0ab992015a71443efbf3654f33ffc675
 
+PATH := $(HOME)/arm-cs-tools/bin:${PATH}
 
-install-cross: setup cross-binutils cross-gcc cross-g++ cross-newlib cross-gdb
+install-cross: setup cross-binutils cross-gcc cross-g++ cross-newlib cross-gdb postsetup
 install-deps: gmp mpfr mpc
 
 setup:
 	mkdir -p $(HOME)/arm-cs-tools/bin
-	export PATH=$(HOME)/arm-cs-tools/bin:$PATH
 
 postsetup:
 	mkdir -p packages/arm-tinyos-toolchain-2.10/usr
