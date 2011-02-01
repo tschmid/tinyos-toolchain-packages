@@ -20,7 +20,6 @@ cd ${SOURCES}
 echo "Downloading openocd repository..."
 git clone git://openocd.git.sourceforge.net/gitroot/openocd/openocd openocd-0.5-git
 tar cvfz openocd-0.5-git.tar.gz openocd-0.5-git
-wget -c http://www.ftdichip.com/Drivers/D2XX/Linux/libftd2xx0.4.16.tar.gz
 
 cd ${MAIN_DIR}
 
@@ -30,21 +29,27 @@ fi
 
 if [ ! -e .openocd.build ]; then
     tar xvfz ${SOURCES}/openocd-0.5-git.tar.gz
-    tar xvfz ${SOURCES}/libftd2xx0.4.16.tar.gz
 
     pwd
     cd openocd-0.5-git/
+    patch -p0 < ../openocd.patch
     ./bootstrap || exit
     cd -
     cd build
     ../openocd-0.5-git/configure --prefix=${FINAL_INSTALL_DIR}/${TOSOPENOCD}/${PREFIX} \
-                          --enable-ft2232_ftd2xx                         \
-                          --with-ftd2xx-linux-tardir=../libftd2xx0.4.16/ || exit
-    make || exit
+			  --enable-maintainer-mode \
+                          --enable-ft2232_libftdi                         \
+                          --enable-jlink \
+                          || exit
+    make ${PARALLEL} || exit
+    ../openocd-0.5-git/configure --prefix=${FINAL_INSTALL_DIR}/${TOSOPENOCD}/${PREFIX} \
+                          --enable-ft2232_libftdi                         \
+                          --enable-jlink \
+                          || exit
+    make ${PARALLEL} || exit
     make install || exit
 
     touch .openocd.build
     rm -rf build/* 
     rm -rf openocd-0.5-git
-    rm -rf libftd2xx0.4.16
 fi

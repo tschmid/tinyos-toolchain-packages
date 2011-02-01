@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#if [ ! -e /etc/modprobe.d/atmel.conf ]; then
+#    echo "options usbserial vendor=0x03eb product=0x6124" > /etc/modprobe.d/atmel.conf
+#fi
+#if [ -e /etc/modules ]; then
+#    if ! grep -q usbserial /etc/modules; then
+#        echo "usbserial" >> /etc/modules
+#    fi
+#fi
+
+#if [ ! -e /etc/udev/rules.d/45-jtags.rules ]; then
+#  echo "# Olimex arm-usb-ocd
+#SYSFS{idProduct}==\"0003\", SYSFS{idVendor}==\"15ba\", MODE=\"664\", GROUP=\"plugdev\"
+
+## J-Link
+#SYSFS{idVendor}==\"1366\", SYSFS{idProduct}==\"0101\", MODE=\"664\", GROUP=\"plugdev\"
+#" > /etc/udev/rules.d/45-jtags.rules
+#fi
+
+if [ ! -e /etc/udev/rules.d/openocd.rules ]; then
+  ln -s /usr/arm-tinyos/share/openocd/contrib/openocd.udev /etc/udev/rules.d/openocd.rules
+fi

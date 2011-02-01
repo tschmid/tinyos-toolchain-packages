@@ -20,6 +20,8 @@ all: remove-deps
 		cat control-files/$$1.control | sed 's/@version@/'$$2-`date +%Y%m%d`'/'	\
 					      | sed 's/@architecture@/$(ARCH_TYPE)/'	\
 					      > $$1-$$2/DEBIAN/control;			\
+		cat ../postinst >> $$1-$$2/DEBIAN/postinst; \
+		chmod 0755 $$1-$$2/DEBIAN/postinst;    \
 		fakeroot dpkg-deb --build $$1-$$2 $(PACKAGES_DIR)/$$1-tinyos-$$2.deb;		\
 	done
 
