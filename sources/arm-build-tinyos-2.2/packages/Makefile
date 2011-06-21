@@ -4,19 +4,12 @@ PACKAGES_TOP_DIR ?= ../../../packages/
 PACKAGES_DIR = $(PACKAGES_TOP_DIR)/$(ARCH_TYPE)
 
 ARM_TOOLCHAIN_NAME=arm-tinyos-toolchain
-ARM_TOOLCHAIN_VERSION=2.10
-
-OPENOCD_NAME=openocd
-OPENOCD_VERSION=0.5-git
+ARM_TOOLCHAIN_VERSION=2.2
 
 ARM_TOOLCHAIN=$(ARM_TOOLCHAIN_NAME)-$(ARM_TOOLCHAIN_VERSION)
-OPENOCD=$(OPENOCD_NAME)-$(OPENOCD_VERSION)
 NAMES = $(ARM_LIBC) $(ARM_BINUTILS) $(ARM_GCC) $(ARM_GDB)
 
-	
 LOOP_LIST= "$(ARM_TOOLCHAIN_NAME) $(ARM_TOOLCHAIN_VERSION)"		\
-           "$(OPENOCD_NAME) $(OPENOCD_VERSION)"
-
 
 all: remove-deps  
 	for i in $(LOOP_LIST);								\
@@ -26,7 +19,7 @@ all: remove-deps
 		cat control-files/$$1.control | sed 's/@version@/'$$2-`date +%Y%m%d`'/'	\
 					      | sed 's/@architecture@/$(ARCH_TYPE)/'	\
 					      > $$1-$$2/DEBIAN/control;			\
-		fakeroot dpkg-deb --build $$1-$$2 $(PACKAGES_DIR)/$$1-tinyos-$$2.deb;		\
+		fakeroot dpkg-deb --build $$1-$$2 $(PACKAGES_DIR)/$$1-$$2.deb;		\
 	done
 
 packages: all
