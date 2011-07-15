@@ -3,8 +3,8 @@ Version: @version@
 Section: devel
 Priority: optional
 Architecture: @architecture@
-Depends: tinyos-base, arm-tinyos, nesc, tinyos-tools, deputy-tinyos
-Maintainer: Thomas Schmid <thschmid@umich.edu>
+Depends: tinyos-base, arm-tinyos, nesc, tinyos-tools 
+Maintainer: Thomas Schmid <thomas.schmid@utah.edu>
 Description: Dummy package to pull in all optional packages for tinyos
 
 

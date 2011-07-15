@@ -4,7 +4,7 @@ PACKAGES_TOP_DIR ?= ../../../packages/
 PACKAGES_DIR = $(PACKAGES_TOP_DIR)/$(ARCH_TYPE)
 
 TOOLS_NAME = tinyos-tools
-TOOLS_VERSION = 1.4.1-cortex
+TOOLS_VERSION = 1.4.1
 
 all: download compile fix-paths package
 
@@ -14,7 +14,8 @@ $(TOOLS_NAME)-$(TOOLS_VERSION):
 	#cvs -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos login
 	#cvs -z3 -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos co -P 			\
 	#	-d $(TOOLS_NAME)-$(TOOLS_VERSION) -r $(CVS_TAG) tinyos-2.x/tools
-	svn checkout http://tinyos-main.googlecode.com/svn/branches/cortex-devel/tools $(TOOLS_NAME)-$(TOOLS_VERSION)
+	#svn checkout http://tinyos-main.googlecode.com/svn/branches/cortex-devel/tools $(TOOLS_NAME)-$(TOOLS_VERSION)
+	svn checkout http://tinyos-main.googlecode.com/svn/trunk/tools $(TOOLS_NAME)-$(TOOLS_VERSION)
 
 
 compile:

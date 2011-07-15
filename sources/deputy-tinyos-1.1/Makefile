@@ -12,8 +12,8 @@ FULL_NAME = $(NAME)-$(VERSION)
 all: download package
 
 download:
-	wget http://tinyos.stanford.edu/tinyos/toolchain/repo/$(FULL_NAME).tar.gz
-	wget http://tinyos.stanford.edu/tinyos/toolchain/repo/deputy.patch
+	wget -c http://tinyos.stanford.edu/tinyos/toolchain/repo/$(FULL_NAME).tar.gz
+	wget -c http://tinyos.stanford.edu/tinyos/toolchain/repo/deputy.patch
 
 compile-it: 
 	tar -zxvf $(FULL_NAME).tar.gz

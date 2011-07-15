@@ -4,7 +4,7 @@ PACKAGES_TOP_DIR ?= ../../packages
 PACKAGES_DIR = $(PACKAGES_TOP_DIR)/$(ARCH_TYPE)
 
 NAME = tinyos
-VERSION = 2.x-cortex
+VERSION = 2.x
 #CVS_TAG = release_tinyos_2_1_1_3
 FULL_NAME = $(NAME)-$(VERSION)
 
@@ -13,7 +13,7 @@ all: download extract do-copy package
 download:
 	#cvs -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos login
 	#cvs -z3 -d:pserver:anonymous@tinyos.cvs.sourceforge.net:/cvsroot/tinyos co -P -r $(CVS_TAG) tinyos-2.x	
-	svn checkout http://tinyos-main.googlecode.com/svn/branches/cortex-devel tinyos-2.x
+	svn checkout http://tinyos-main.googlecode.com/svn/trunk tinyos-2.x
 
 extract:
 	cd $(NAME)-2.x;									\

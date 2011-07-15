@@ -1,0 +1,368 @@
+#!/bin/bash
+# Written by Uwe Hermann <uwe@hermann-uwe.de>, released as public domain.
+# Modified by Piotr Esden-Tempski <piotr@esden.net>, released as public domain.
+# Modified by Thomas Schmid <thomas.schmid@utah.edu>, released as public domain.
+
+umask 002
+
+ARM_TOOLCHAIN_NAME=arm-tinyos-toolchain
+ARM_TOOLCHAIN_VERSION=2.2
+
+PREFIX=/usr/arm-tinyos/
+PKGDIR=`pwd`/packages/$ARM_TOOLCHAIN_NAME-$ARM_TOOLCHAIN_VERSION/${PREFIX}
+TARGET=arm-none-eabi			# Target platform
+PREFIX=${INSTALL_DIR}   		# Install location of your final toolchain
+PARALLEL=-j`getconf _NPROCESSORS_ONLN`	# Parallel build options
+
+CS_BASE=2011.03
+CS_REV=42
+GCC_VERSION=4.5
+MPC_VERSION=0.8.1
+CS_VERSION=${CS_BASE}-${CS_REV}
+LOCAL_BASE=arm-${CS_VERSION}-arm-none-eabi
+LOCAL_SOURCE=${LOCAL_BASE}.src.tar.bz2
+SOURCE_URL=http://www.codesourcery.com/sgpp/lite/arm/portal/package8733/public/arm-none-eabi/${LOCAL_SOURCE}
+MD5_CHECKSUM=7c302162ec813d039b8388bd7d2b4176
+
+MAIN_DIR=$(pwd)
+SOURCES=${MAIN_DIR}/sources
+
+PATH=$PKGDIR/bin:$PATH
+
+if [ ! -e ${SOURCES} ]; then
+    mkdir ${SOURCES}
+fi
+
+cd ${SOURCES}
+
+echo "Downloading Sources"
+
+wget -c ${SOURCE_URL}
+
+t1=`openssl md5 ${LOCAL_SOURCE} | cut -f 2 -d " " -` && \
+	test $t1 = ${MD5_CHECKSUM} || \
+	(echo "Bad Checksum! Please remove the following file and retry:\n${LOCAL_SOURCE}" && exit 1)
+
+tar xvfj ${LOCAL_SOURCE}
+mv ${LOCAL_BASE}/* .
+
+cd ${MAIN_DIR}
+
+if [ ! -e build ]; then
+    mkdir build
+fi
+
+if [ ! -e .binutils-${CS_VERSION}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking binutils-${CS_VERSION}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/binutils-${CS_VERSION}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring binutils-${CS_VERSION}"
+    echo "******************************************************************"
+    ../binutils-${CS_BASE}/configure --target=${TARGET} \
+                           --prefix=${PREFIX} \
+                           --disable-nls \
+                           --disable-werror \
+			   ${BINUTILFLAGS} || exit
+    echo "******************************************************************"
+    echo "* Building binutils-${CS_VERSION}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing binutils-${CS_VERSION}"
+    echo "******************************************************************"
+    make DESTDIR=${PKGDIR} install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up binutils-${CS_VERSION}"
+    echo "******************************************************************"
+    touch .binutils-${CS_VERSION}.build
+    rm -rf build/* binutils-${CS_BASE}
+fi
+
+#if [ ! -e .gmp-${CS_VERSION}.build ]; then
+#    echo "******************************************************************"
+#    echo "* Unpacking gmp-${CS_VERSION}"
+#    echo "******************************************************************"
+#    tar xfvj ${SOURCES}/gmp-${CS_VERSION}.tar.bz2
+#    cd build
+#    echo "******************************************************************"
+#    echo "* Configuring gmp-${CS_VERSION}"
+#    echo "******************************************************************"
+#    ../gmp-${CS_BASE}/configure \
+#                           --prefix=${PREFIX} \
+#                           --disable-shared \
+#                           --enable-static \
+#			   || exit
+#    echo "******************************************************************"
+#    echo "* Building gmp-${CS_VERSION}"
+#    echo "******************************************************************"
+#    make ${PARALLEL} || exit
+#    echo "******************************************************************"
+#    echo "* Installing ${GMP}"
+#    echo "******************************************************************"
+#    make DESTDIR=${PKGDIR} install || exit
+#    cd ..
+#    echo "******************************************************************"
+#    echo "* Cleaning up gmp-${CS_VERSION}"
+#    echo "******************************************************************"
+#    touch .gmp-${CS_VERSION}.build
+#    rm -rf build/* gmp-${CS_BASE}
+#fi
+#
+#if [ ! -e .mpfr-${CS_VERSION}.build ]; then
+#    echo "******************************************************************"
+#    echo "* Unpacking mpfr-${CS_VERSION}"
+#    echo "******************************************************************"
+#    tar xfvj ${SOURCES}/mpfr-${CS_VERSION}.tar.bz2
+#    cd build
+#    echo "******************************************************************"
+#    echo "* Configuring mpfr-${CS_VERSION}"
+#    echo "******************************************************************"
+#    ../mpfr-${CS_BASE}/configure \
+#                           --prefix=${PREFIX} \
+#                           --with-gmp=${PKGDIR}/${PREFIX} \
+#                           --disable-shared \
+#                           --enable-static \
+#			   || exit
+#    echo "******************************************************************"
+#    echo "* Building mpfr-${CS_VERSION}"
+#    echo "******************************************************************"
+#    make ${PARALLEL} || exit
+#    echo "******************************************************************"
+#    echo "* Installing mpfr-${CS_VERSION}"
+#    echo "******************************************************************"
+#    make DESTDIR=${PKGDIR} install || exit
+#    cd ..
+#    echo "******************************************************************"
+#    echo "* Cleaning up mpfr-${CS_VERSION}"
+#    echo "******************************************************************"
+#    touch .mpfr-${CS_VERSION}.build
+#    rm -rf build/* mpfr-${CS_BASE}
+#fi
+#
+#if [ ! -e .mpc-${CS_VERSION}.build ]; then
+#    echo "******************************************************************"
+#    echo "* Unpacking mpc-${CS_VERSION}"
+#    echo "******************************************************************"
+#    tar xfvj ${SOURCES}/mpc-${CS_VERSION}.tar.bz2
+#    cd build
+#    echo "******************************************************************"
+#    echo "* Configuring mpc-${CS_VERSION}"
+#    echo "******************************************************************"
+#    ../mpc-${MPC_VERSION}/configure \
+#                           --prefix=${PREFIX} \
+#                           --with-mpfr=${PKGDIR}/${PREFIX} \
+#                           --with-gmp=${PKGDIR}/${PREFIX} \
+#                           --disable-shared \
+#                           --enable-static \
+#			   || exit
+#    echo "******************************************************************"
+#    echo "* Building mpc-${CS_VERSION}"
+#    echo "******************************************************************"
+#    make ${PARALLEL} || exit
+#    echo "******************************************************************"
+#    echo "* Installing mpc-${CS_VERSION}"
+#    echo "******************************************************************"
+#    make DESTDIR=${PKGDIR} install || exit
+#    cd ..
+#    echo "******************************************************************"
+#    echo "* Cleaning up mpc-${CS_VERSION}"
+#    echo "******************************************************************"
+#    touch .mpc-${CS_VERSION}.build
+#    rm -rf build/* mpc-${MPC_VERSION}
+#fi
+
+if [ ! -e .gcc-${CS_VERSION}-boot.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking gcc-${CS_VERSION}-boot"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/gcc-${CS_VERSION}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring gcc-${CS_VERSION}-boot"
+    echo "******************************************************************"
+    ../gcc-${GCC_VERSION}-${CS_BASE}/configure --target=${TARGET} \
+                      --prefix=${PREFIX} \
+		      --enable-languages="c" \
+		      --with-gnu-ld \
+		      --with-gnu-as \
+		      --with-newlib \
+		      --disable-nls \
+		      --disable-libssp \
+		      --with-newlib \
+		      --without-headers \
+		      --disable-shared \
+		      --disable-threads \
+		      --disable-libmudflap \
+		      --disable-libgomp \
+		      --disable-libstdcxx-pch \
+		      --disable-libunwind-exceptions \
+		      --disable-libffi  \
+		      --enable-extra-sgxxlite-multilibs \
+		      ${GCCFLAGS} || exit
+
+#                      --enable-interwork \
+#                      --disable-multilib \
+#                      --enable-languages="c" \
+#                      --with-newlib \
+#                      --without-headers \
+#                      --disable-shared \
+#                      --with-gnu-as \
+#                      --with-gnu-ld \
+#                      --disable-nls \
+#                      --disable-shared \
+#                      --disable-threads \
+
+    echo "******************************************************************"
+    echo "* Building gcc-${CS_VERSION}-boot"
+    echo "******************************************************************"
+    make ${PARALLEL} all-gcc || exit
+    echo "******************************************************************"
+    echo "* Installing gcc-${CS_VERSION}-boot"
+    echo "******************************************************************"
+    make DESTDIR=$PKGDIR install-gcc || exit
+    cd ..
+    #echo "******************************************************************"
+    #echo "* Adding symlink to as"
+    #echo "******************************************************************"
+    #ln -s ${FINAL_INSTALL_DIR}/${TOSBINUTILS}/${PREFIX}/arm-none-eabi/bin ${FINAL_INSTALL_DIR}/${TOSGCC}/${PREFIX}/arm-none-eabi
+    echo "******************************************************************"
+    echo "* Cleaning up gcc-${CS_VERSION}-boot"
+    echo "******************************************************************"
+    touch .gcc-${CS_VERSION}-boot.build
+    rm -rf build/* gcc-${GCC_VERSION}-${CS_BASE}
+fi
+
+if [ ! -e .newlib-${CS_VERSION}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking newlib-${CS_VERSION}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/newlib-${CS_VERSION}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring newlib-${CS_VERSION}"
+    echo "******************************************************************"
+    NEWLIB_FLAGS=-ffunction-sections -fdata-sections -DPREFER_SIZE_OVER_SPEED -D__OPTIMIZE_SIZE__ -Os -fomit-frame-pointer -fno-unroll-loops -D__BUFSIZ__=256 -mabi=aapcs
+    ../newlib-${CS_BASE}/configure --target=${TARGET} \
+                         --prefix=${PREFIX} \
+			 --disable-newlib-supplied-syscalls \
+			 --disable-libgloss \
+			 --disable-nls \
+			 --disable-shared \
+			 --enable-newlib-io-long-long  || exit
+#                         --enable-interwork \
+#                         --enable-multilib \
+#                         --with-gnu-as \
+#                         --with-gnu-ld \
+#                         --with-gmp=${FINAL_INSTALL_DIR}/${GMP}/${PREFIX} \
+#                         --with-mpfr=${FINAL_INSTALL_DIR}/${MPFR}/${PREFIX} \
+#                         --with-ld=${FINAL_INSTALL_DIR}/${TOSBINUTILS}/${PREFIX}/bin/arm-none-eabi-ld \
+#                         --with-as=${FINAL_INSTALL_DIR}/${TOSBINUTILS}/${PREFIX}/bin/arm-none-eabi-as \
+#                         --disable-nls \
+#                         --enable-target-optspace \
+#                         --enable-newlib-reent-small \
+#                         --enable-newlib-io-c99-formats \
+#                         --enable-newlib-io-long-long \
+#                         --disable-newlib-multithread \
+#                         --disable-newlib-supplied-syscalls \
+#                         CFLAGS="-DPREFER_SIZE_OVER_SPEED -DSMALL_MEMORY" || exit
+    echo "******************************************************************"
+    echo "* Building newlib-${CS_VERSION}"
+    echo "******************************************************************"
+    make ${PARALLEL} CFLAGS_FOR_TARGET=${NEWLIB_FLAGS} CCASFLAGS=${NEWLIB_FLAGS} || exit
+    echo "******************************************************************"
+    echo "* Installing newlib-${CS_VERSION}"
+    echo "******************************************************************"
+    make DESTDIR=$PKGDIR install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up newlib-${CS_VERSION}"
+    echo "******************************************************************"
+    touch .newlib-${CS_VERSION}.build
+    rm -rf build/* newlib-${CS_BASE}
+fi
+
+# Yes, you need to build gcc again!
+if [ ! -e .gcc-${CS_VERSION}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking gcc-${CS_VERSION}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/gcc-${CS_VERSION}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Copying include to sys-include"
+    echo "******************************************************************"
+    cp -r ${PKGDIR}/arm-none-eabi/include ${PKGDIR}/arm-none-eabi/sys-include
+    echo "******************************************************************"
+    echo "* Configuring gcc-${CS_VERSION}"
+    echo "******************************************************************"
+    ../gcc-${GCC_VERSION}-${CS_BASE}/configure --target=${TARGET} \
+                      --prefix=${PREFIX} \
+		      --enable-languages="c" \
+		      --with-gnu-ld \
+		      --with-gnu-as \
+		      --with-newlib \
+		      --disable-nls \
+		      --disable-libssp \
+		      --with-newlib \
+		      --disable-shared \
+		      --disable-threads \
+		      --disable-libmudflap \
+		      --disable-libgomp \
+		      --disable-libstdcxx-pch \
+		      --disable-libunwind-exceptions \
+		      --disable-libffi  \
+		      --enable-extra-sgxxlite-multilibs \
+		      ${GCCFLAGS} || exit
+
+#                      --with-headers=${PKGDIR}/arm-none-eabi/include \
+#                      --with-libss=${FINAL_INSTALL_DIR}/${TOSNEWLIB}/${PREFIX}/arm-none-eabi/lib \
+#	 	     ${GCCFLAGS} || exit
+    echo "******************************************************************"
+    echo "* Building gcc-${CS_VERSION}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing ${GCC}"
+    echo "******************************************************************"
+    make DESTDIR=$PKGDIR install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up gcc-${CS_VERSION}"
+    echo "******************************************************************"
+    touch .gcc-${CS_VERSION}.build
+    rm -rf build/* gcc-${GCC_VERSION}-${CS_BASE}
+fi
+
+if [ ! -e .gdb-${CS_VERSION}.build ]; then
+    echo "******************************************************************"
+    echo "* Unpacking gdb-${CS_VERSION}"
+    echo "******************************************************************"
+    tar xfvj ${SOURCES}/gdb-${CS_VERSION}.tar.bz2
+    cd build
+    echo "******************************************************************"
+    echo "* Configuring gdb-${CS_VERSION}"
+    echo "******************************************************************"
+    ../gdb-${CS_BASE}/configure --target=${TARGET} \
+                      --prefix=${PREFIX} \
+                      --enable-interwork \
+                      --enable-multilib \
+		      ${GDBFLAGS} || exit
+    echo "******************************************************************"
+    echo "* Building gdb-${CS_VERSION}"
+    echo "******************************************************************"
+    make ${PARALLEL} || exit
+    echo "******************************************************************"
+    echo "* Installing gdb-${CS_VERSION}"
+    echo "******************************************************************"
+    make DESTDIR=$PKGDIR install || exit
+    cd ..
+    echo "******************************************************************"
+    echo "* Cleaning up gdb-${CS_VERSION}"
+    echo "******************************************************************"
+    touch .gdb-${CS_VERSION}.build
+    rm -rf build/* gdb-${CS_BASE}
+fi

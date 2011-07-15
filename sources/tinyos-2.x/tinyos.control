@@ -1,4 +1,4 @@
-Package: tinyos-2.x-cortex
+Package: tinyos-2.x
 Version: @version@
 Section: devel
 Priority: optional
