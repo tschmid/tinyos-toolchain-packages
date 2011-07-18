@@ -27,7 +27,7 @@ MD5_CHECKSUM=7c302162ec813d039b8388bd7d2b4176
 MAIN_DIR=$(pwd)
 SOURCES=${MAIN_DIR}/sources
 
-PATH=$PKGDIR/bin:$PATH
+PATH=$PKGDIR/usr/bin:$PATH
 
 if [ ! -e ${SOURCES} ]; then
     mkdir ${SOURCES}

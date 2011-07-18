@@ -1,5 +1,4 @@
 Prerequisites
 -------------
-sudo apt-get install git texinfo m4 libncurses-dev dpkg-dev
-sudo apt-get install curl flex bison libgmp3-dev libmpfr-dev autoconf build-essential libncurses5-dev libmpc-dev texinfo
+sudo apt-get install git texinfo m4 libncurses-dev dpkg-dev curl flex bison libgmp3-dev libmpfr-dev autoconf build-essential libncurses5-dev libmpc-dev texinfo
 
