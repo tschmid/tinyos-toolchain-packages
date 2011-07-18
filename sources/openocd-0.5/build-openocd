@@ -6,7 +6,7 @@ TARGET=arm-none-eabi			# Target platform
 PREFIX=${INSTALL_DIR}   		# Install location of your final toolchain
 PARALLEL=-j`getconf _NPROCESSORS_ONLN`	# Parallel build options
 
-TOSOPENOCD=openocd-0.5-git
+TOSOPENOCD=openocd-0.5-rc2
 
 MAIN_DIR=$(pwd)
 SOURCES=${MAIN_DIR}/sources
@@ -18,8 +18,8 @@ fi
 cd ${SOURCES}
 
 echo "Downloading openocd repository..."
-git clone git://openocd.git.sourceforge.net/gitroot/openocd/openocd openocd-0.5-git
-tar cvfz openocd-0.5-git.tar.gz openocd-0.5-git
+git clone -b v0.5.0-rc2	git://openocd.git.sourceforge.net/gitroot/openocd/openocd $TOSOPENOCD
+tar cvfz ${TOSOPENOCD}.tar.gz ${TOSOPENOCD}
 
 cd ${MAIN_DIR}
 
@@ -28,21 +28,21 @@ if [ ! -e build ]; then
 fi
 
 if [ ! -e .openocd.build ]; then
-    tar xvfz ${SOURCES}/openocd-0.5-git.tar.gz
+    tar xvfz ${SOURCES}/${TOSOPENOCD}.tar.gz
 
     pwd
-    cd openocd-0.5-git/
-    patch -p0 < ../openocd.patch
+    cd ${TOSOPENOCD}/
+    #patch -p0 < ../openocd.patch
     ./bootstrap || exit
     cd -
     cd build
-    ../openocd-0.5-git/configure --prefix=${FINAL_INSTALL_DIR}/${TOSOPENOCD}/${PREFIX} \
+    ../${TOSOPENOCD}/configure --prefix=${FINAL_INSTALL_DIR}/${TOSOPENOCD}/${PREFIX} \
 			  --enable-maintainer-mode \
                           --enable-ft2232_libftdi                         \
                           --enable-jlink \
                           || exit
     make ${PARALLEL} || exit
-    ../openocd-0.5-git/configure --prefix=${FINAL_INSTALL_DIR}/${TOSOPENOCD}/${PREFIX} \
+    ../${TOSOPENOCD}/configure --prefix=${FINAL_INSTALL_DIR}/${TOSOPENOCD}/${PREFIX} \
                           --enable-ft2232_libftdi                         \
                           --enable-jlink \
                           || exit
@@ -51,5 +51,5 @@ if [ ! -e .openocd.build ]; then
 
     touch .openocd.build
     rm -rf build/* 
-    rm -rf openocd-0.5-git
+    rm -rf ${TOSOPENOCD}
 fi

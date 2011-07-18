@@ -4,7 +4,7 @@ PACKAGES_TOP_DIR ?= ../../../packages/
 PACKAGES_DIR = $(PACKAGES_TOP_DIR)/$(ARCH_TYPE)
 
 OPENOCD_NAME=openocd
-OPENOCD_VERSION=0.5-git
+OPENOCD_VERSION=0.5-rc2
 
 OPENOCD=$(OPENOCD_NAME)-$(OPENOCD_VERSION)
 
@@ -22,7 +22,7 @@ all: remove-deps
 					      > $$1-$$2/DEBIAN/control;			\
 		cat ../postinst >> $$1-$$2/DEBIAN/postinst; \
 		chmod 0755 $$1-$$2/DEBIAN/postinst;    \
-		fakeroot dpkg-deb --build $$1-$$2 $(PACKAGES_DIR)/$$1-tinyos-$$2.deb;		\
+		fakeroot dpkg-deb --build $$1-$$2 $(PACKAGES_DIR)/$$1-$$2.deb;		\
 	done
 
 packages: all
